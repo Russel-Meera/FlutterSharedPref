@@ -14,6 +14,7 @@ class _MyBMIState extends State<MyBMI> {
   final TextEditingController _weightController = TextEditingController();
   String bmiResult = '';
   String textResult = '';
+  String infoResult = '';
 
   @override
   void initState() {
@@ -25,6 +26,7 @@ class _MyBMIState extends State<MyBMI> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("bmi", bmiResult);
     prefs.setString("text", textResult);
+    prefs.setString("info", infoResult);
   }
 
   Future<void> loadResult() async {
@@ -32,6 +34,7 @@ class _MyBMIState extends State<MyBMI> {
     setState(() {
       textResult = prefs.getString("text") ?? '';
       bmiResult = prefs.getString("bmi") ?? '';
+      infoResult = prefs.getString("info") ?? '';
     });
   }
 
@@ -39,9 +42,11 @@ class _MyBMIState extends State<MyBMI> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove("text");
     await prefs.remove("bmi");
+    await prefs.remove("info");
     setState(() {
       textResult = 'No data';
       bmiResult = '0.00';
+      infoResult = 'No data';
     });
   }
 
@@ -56,12 +61,19 @@ class _MyBMIState extends State<MyBMI> {
 
           if (result <= 18.5) {
             textResult = "Underweight";
+            infoResult =
+                "You need to gain weight. Try to eat more healthy foods.";
           } else if (result <= 24.5) {
             textResult = "Normal";
+            infoResult = "You have a normal weight. Keep it up!";
           } else if (result <= 29.9) {
             textResult = "Overweight";
+            infoResult =
+                "You need to lose weight. Try to eat less unhealthy foods.";
           } else {
             textResult = "Obese";
+            infoResult =
+                "You need to lose weight. Try to eat less unhealthy foods.";
           }
         },
       );
@@ -96,8 +108,9 @@ class _MyBMIState extends State<MyBMI> {
               const SizedBox(
                 height: 20,
               ),
-              Text("Your BMI: $bmiResult"),
+              Text(bmiResult),
               Text(textResult),
+              Text(infoResult),
               Column(
                 children: [
                   Padding(
@@ -160,7 +173,14 @@ class _MyBMIState extends State<MyBMI> {
                       onPressed: () {
                         calculate();
                       },
-                      child: const Text("Calculate"),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green),
+                      ),
+                      child: const Text(
+                        "Calculate",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                   Padding(
@@ -169,7 +189,16 @@ class _MyBMIState extends State<MyBMI> {
                       onPressed: () {
                         removeResult();
                       },
-                      child: const Text("Remove"),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green),
+                      ),
+                      child: const Text(
+                        "Remove",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   )
                 ],
