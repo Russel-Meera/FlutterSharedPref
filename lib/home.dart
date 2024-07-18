@@ -122,6 +122,7 @@ class _MyBMIState extends State<MyBMI> {
                         hintText: "Centimeter",
                         label: Text("Height"),
                         border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.height),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -129,6 +130,10 @@ class _MyBMIState extends State<MyBMI> {
                         } else if (!RegExp(r'^\d*\.?\d+$').hasMatch(value)) {
                           return 'Please enter a valid number';
                         } else {
+                          double checker = double.parse(value);
+                          if (checker < 2.5) {
+                            return 'Please enter a valid number';
+                          }
                           return null;
                         }
                       },
@@ -146,6 +151,7 @@ class _MyBMIState extends State<MyBMI> {
                         hintText: "Kilograms",
                         label: Text("Weight"),
                         border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.scale),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -154,6 +160,10 @@ class _MyBMIState extends State<MyBMI> {
                             .hasMatch(value)) {
                           return 'Please enter a valid number';
                         } else {
+                          double checker = double.parse(value);
+                          if (checker < 2.5) {
+                            return 'Please enter a valid number';
+                          }
                           return null;
                         }
                       },
